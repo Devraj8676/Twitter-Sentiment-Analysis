@@ -1,0 +1,90 @@
+.dashboard-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 40px auto;
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.result-card {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.card-title {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+}
+
+.main-sentiment {
+  align-items: center;
+  justify-content: center;
+}
+
+.sentiment-display {
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 40px;
+  opacity: 0.95;
+}
+
+.confidence-meter-container {
+  width: 100%;
+  max-width: 320px;
+}
+
+.confidence-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.confidence-track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.confidence-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.text-preview {
+  justify-content: flex-start;
+}
+
+.tweet-text {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  font-style: italic;
+  border-left: 4px solid var(--accent-color);
+  padding-left: 20px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

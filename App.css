@@ -1,0 +1,73 @@
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  background: rgba(5, 5, 5, 0.7);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.twitter-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--accent-color);
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.logo-highlight {
+  color: var(--accent-color);
+}
+
+.app-main {
+  flex: 1;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.error-message {
+  color: var(--negative-color);
+  background: rgba(244, 63, 94, 0.1);
+  padding: 16px 24px;
+  margin-top: 24px;
+  border: 1px solid var(--negative-color);
+  border-radius: 8px;
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+}
+
+.app-footer {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  border-top: 1px solid var(--glass-border);
+  background: rgba(5, 5, 5, 0.5);
+}
