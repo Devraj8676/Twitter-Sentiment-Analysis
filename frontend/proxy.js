@@ -7,10 +7,21 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const PYTHON_BACKEND_URL = 'http://192.168.29.8:8000/predict';
+const PYTHON_BACKEND_URL = 'http://127.0.0.1:8000/predict';
 
 app.use(cors());
 app.use(express.json());
+
+// Endpoint to predict sentiment of a single text
+app.post('/api/predict', async (req, res) => {
+  try {
+    const response = await axios.post(PYTHON_BACKEND_URL, { text: req.body.text });
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error predicting sentiment:', error.message);
+    res.status(500).json({ error: 'Failed to connect to Python backend' });
+  }
+});
 
 // Endpoint to fetch tweets and their sentiment
 app.get('/api/tweets', async (req, res) => {
@@ -40,7 +51,7 @@ app.get('/api/tweets', async (req, res) => {
       };
 
       const response = await axios.request(options);
-      
+
       // Extract tweet text based on standard rapidapi scraper response format
       if (response.data && response.data.results) {
         tweets = response.data.results.map(item => item.text || item.full_text).filter(Boolean);
@@ -91,7 +102,7 @@ app.get('/api/tweets', async (req, res) => {
     });
 
     const total = positiveCount + neutralCount + negativeCount;
-    
+
     // Calculate percentages
     const positivePercentage = total === 0 ? 0 : Math.round((positiveCount / total) * 100);
     const neutralPercentage = total === 0 ? 0 : Math.round((neutralCount / total) * 100);

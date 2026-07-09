@@ -8,32 +8,32 @@ import {
 import './AggregateDashboard.css';
 
 const AggregateDashboard = () => {
-  const [query, setQuery] = useState('#AI');
+  const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   
   // Dashboard state
   const [metrics, setMetrics] = useState({
-    positivePercentage: 62,
-    neutralPercentage: 21,
-    negativePercentage: 17,
-    totalAnalyzed: 1240
+    positivePercentage: 0,
+    neutralPercentage: 0,
+    negativePercentage: 0,
+    totalAnalyzed: 0
   });
 
   const [pieData, setPieData] = useState([
-    { name: 'Positive', value: 62 },
-    { name: 'Neutral', value: 21 },
-    { name: 'Negative', value: 17 },
+    { name: 'Positive', value: 0 },
+    { name: 'Neutral', value: 0 },
+    { name: 'Negative', value: 0 },
   ]);
 
   const [lineData, setLineData] = useState([
-    { name: 'Mon', Positive: 55, Neutral: 25, Negative: 20 },
-    { name: 'Tue', Positive: 60, Neutral: 22, Negative: 18 },
-    { name: 'Wed', Positive: 58, Neutral: 24, Negative: 18 },
-    { name: 'Thu', Positive: 65, Neutral: 20, Negative: 15 },
-    { name: 'Fri', Positive: 62, Neutral: 21, Negative: 17 },
-    { name: 'Sat', Positive: 67, Neutral: 18, Negative: 15 },
-    { name: 'Sun', Positive: 62, Neutral: 21, Negative: 17 },
+    { name: 'Mon', Positive: 0, Neutral: 0, Negative: 0 },
+    { name: 'Tue', Positive: 0, Neutral: 0, Negative: 0 },
+    { name: 'Wed', Positive: 0, Neutral: 0, Negative: 0 },
+    { name: 'Thu', Positive: 0, Neutral: 0, Negative: 0 },
+    { name: 'Fri', Positive: 0, Neutral: 0, Negative: 0 },
+    { name: 'Sat', Positive: 0, Neutral: 0, Negative: 0 },
+    { name: 'Sun', Positive: 0, Neutral: 0, Negative: 0 },
   ]);
 
   const [recentTweets, setRecentTweets] = useState([]);

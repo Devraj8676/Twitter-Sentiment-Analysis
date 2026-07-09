@@ -1,5 +1,6 @@
 import pickle
 import re
+from pathlib import Path
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
@@ -24,7 +25,8 @@ def clean_text(text):
     return text
 
 # Load the trained model from your exact path
-MODEL_PATH = r"C:\Users\LOQ\OneDrive\Desktop\Finalyear\model_outputs\SentimentAnalysis.pickle"
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / "model_outputs" / "SentimentAnalysis.pickle"
 try:
     with open(MODEL_PATH, "rb") as f:
         pipeline = pickle.load(f)
