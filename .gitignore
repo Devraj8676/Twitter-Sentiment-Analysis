@@ -57,3 +57,5 @@ model_outputs/
 !model_outputs/
 model_outputs/*
 !model_outputs/*.part*
+
+!model_outputs/SentimentAnalysisLite.pickle
