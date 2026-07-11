@@ -26,20 +26,8 @@ def clean_text(text):
 
 # Load the trained model from your exact path
 BASE_DIR = Path(__file__).resolve().parent.parent
-MODEL_PATH = BASE_DIR / "model_outputs" / "SentimentAnalysis.pickle"
+MODEL_PATH = BASE_DIR / "model_outputs" / "SentimentAnalysisLite.pickle"
 
-import os
-import glob
-if not MODEL_PATH.exists():
-    print("Full model not found, looking for chunks...")
-    chunks = sorted(glob.glob(str(MODEL_PATH) + ".part*"))
-    if chunks:
-        print(f"Found {len(chunks)} chunks, reassembling...")
-        with open(MODEL_PATH, "wb") as outfile:
-            for chunk_path in chunks:
-                with open(chunk_path, "rb") as infile:
-                    outfile.write(infile.read())
-        print("Reassembly complete!")
 try:
     with open(MODEL_PATH, "rb") as f:
         pipeline = pickle.load(f)
