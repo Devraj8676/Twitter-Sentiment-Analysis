@@ -48,8 +48,9 @@ const AggregateDashboard = () => {
     setError(null);
 
     try {
-      // Call our local Node.js proxy backend
-      const response = await axios.get(`http://localhost:3001/api/tweets`, {
+      // Call our backend (local or deployed)
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:3001';
+      const response = await axios.get(`${apiUrl}/api/tweets`, {
         params: { query: query.trim() }
       });
 

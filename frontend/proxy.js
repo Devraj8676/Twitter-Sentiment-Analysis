@@ -7,7 +7,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const PYTHON_BACKEND_URL = 'http://127.0.0.1:8000/predict';
+const PYTHON_BACKEND_URL = process.env.PYTHON_BACKEND_URL || 'http://127.0.0.1:8000/predict';
 
 app.use(cors());
 app.use(express.json());

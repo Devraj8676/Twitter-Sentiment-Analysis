@@ -53,3 +53,7 @@ __pycache__/
 *.pyc
 model_outputs/
 *.pickle
+
+!model_outputs/
+model_outputs/*
+!model_outputs/*.part*
