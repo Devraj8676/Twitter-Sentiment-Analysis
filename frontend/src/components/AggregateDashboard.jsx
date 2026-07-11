@@ -107,10 +107,11 @@ const AggregateDashboard = () => {
         </div>
         <div className="tags-row">
           <span className="tags-label">Try:</span>
-          <span className="tag" onClick={() => handleTagClick('#Python')}>#Python</span>
-          <span className="tag" onClick={() => handleTagClick('#ClimateChange')}>#ClimateChange</span>
-          <span className="tag" onClick={() => handleTagClick('ChatGPT')}>ChatGPT</span>
-          <span className="tag" onClick={() => handleTagClick('#WorldCup')}>#WorldCup</span>
+          <span className="tag" onClick={() => handleTagClick('#FIFAWorldCup')}>#FIFAWorldCup</span>
+          <span className="tag" onClick={() => handleTagClick('IND vs ENG')}>IND vs ENG</span>
+          <span className="tag" onClick={() => handleTagClick('Stock Market')}>Stock Market</span>
+          <span className="tag" onClick={() => handleTagClick('#Elections')}>#Elections</span>
+          <span className="tag" onClick={() => handleTagClick('Inflation')}>Inflation</span>
         </div>
         {error && <div className="error-message glass-panel" style={{ padding: '12px', marginTop: '8px', fontSize: '0.9rem' }}>{error}</div>}
       </div>
