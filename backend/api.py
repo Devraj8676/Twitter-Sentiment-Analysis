@@ -73,27 +73,43 @@ def get_tweets(query: str):
     # Try fetching real tweets from RapidAPI (Twitter154)
     try:
         url = "https://twitter154.p.rapidapi.com/search/search"
-        querystring = {"query": query, "section": "top", "limit": "40"}
         headers = {
             "x-rapidapi-key": "de79219e36msh01e64168ac3a968p1b1019jsn9354bb2338d0",
             "x-rapidapi-host": "twitter154.p.rapidapi.com"
         }
         
-        response = requests.get(url, headers=headers, params=querystring, timeout=15)
+        continuation_token = ""
+        pages_fetched = 0
         
-        if response.status_code == 200:
-            data = response.json()
-            if "results" in data:
-                for item in data["results"]:
-                    text = item.get("text") or item.get("full_text")
-                    if text:
-                        # Clean up formatting for display
-                        tweets.append(text.replace('\\n', ' '))
-            elif "timeline" in data:
-                for item in data["timeline"]:
-                    text = item.get("text") or item.get("full_text")
-                    if text:
-                        tweets.append(text.replace('\\n', ' '))
+        # Fetch up to 3 pages to get ~60 tweets
+        while pages_fetched < 3:
+            querystring = {"query": query, "section": "top", "limit": "20"}
+            if continuation_token:
+                querystring["continuation_token"] = continuation_token
+                
+            response = requests.get(url, headers=headers, params=querystring, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if "results" in data:
+                    for item in data["results"]:
+                        text = item.get("text") or item.get("full_text")
+                        if text:
+                            tweets.append(text.replace('\\n', ' '))
+                elif "timeline" in data:
+                    for item in data["timeline"]:
+                        text = item.get("text") or item.get("full_text")
+                        if text:
+                            tweets.append(text.replace('\\n', ' '))
+                
+                # Check for continuation token for the next page
+                continuation_token = data.get("continuation_token")
+                if not continuation_token:
+                    break # No more pages available
+            else:
+                break # Stop if API errors out
+                
+            pages_fetched += 1
                         
     except Exception as e:
         print(f"RapidAPI fetch failed: {e}")
