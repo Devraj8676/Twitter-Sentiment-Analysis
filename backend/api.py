@@ -27,6 +27,19 @@ def clean_text(text):
 # Load the trained model from your exact path
 BASE_DIR = Path(__file__).resolve().parent.parent
 MODEL_PATH = BASE_DIR / "model_outputs" / "SentimentAnalysis.pickle"
+
+import os
+import glob
+if not MODEL_PATH.exists():
+    print("Full model not found, looking for chunks...")
+    chunks = sorted(glob.glob(str(MODEL_PATH) + ".part*"))
+    if chunks:
+        print(f"Found {len(chunks)} chunks, reassembling...")
+        with open(MODEL_PATH, "wb") as outfile:
+            for chunk_path in chunks:
+                with open(chunk_path, "rb") as infile:
+                    outfile.write(infile.read())
+        print("Reassembly complete!")
 try:
     with open(MODEL_PATH, "rb") as f:
         pipeline = pickle.load(f)
@@ -59,6 +72,8 @@ def predict_sentiment(request: PredictRequest):
     }
 
 if __name__ == "__main__":
-    # Start the server on port 8000
-    print("Starting Python API server on port 8000...")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import os
+    # Start the server on port 8000 or dynamically assigned PORT
+    port = int(os.environ.get("PORT", 8000))
+    print(f"Starting Python API server on port {port}...")
+    uvicorn.run(app, host="0.0.0.0", port=port)
