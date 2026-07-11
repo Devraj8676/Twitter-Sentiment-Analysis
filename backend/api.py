@@ -63,9 +63,17 @@ def predict_sentiment(request: PredictRequest):
 def read_root():
     return {"message": "Welcome to Twitter Sentiment Analysis API. The backend is live! 🚀"}
 
+query_cache = {}
+
 @app.get("/api/tweets")
 def get_tweets(query: str):
     import random
+    import requests
+    
+    query_lower = query.strip().lower()
+    if query_lower in query_cache:
+        print(f"Returning cached results for: {query_lower}")
+        return query_cache[query_lower]
     import requests
     
     tweets = []
@@ -193,7 +201,7 @@ def get_tweets(query: str):
       { "name": 'Sun', "Positive": pos_pct, "Neutral": neu_pct, "Negative": neg_pct },
     ]
     
-    return {
+    result = {
       "query": query,
       "metrics": {
         "positivePercentage": pos_pct,
@@ -211,6 +219,9 @@ def get_tweets(query: str):
       },
       "recentTweets": analyzed_tweets
     }
+    
+    query_cache[query_lower] = result
+    return result
 
 if __name__ == "__main__":
     import os
