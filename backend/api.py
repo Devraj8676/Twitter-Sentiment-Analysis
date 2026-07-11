@@ -65,16 +65,49 @@ def read_root():
 
 @app.get("/api/tweets")
 def get_tweets(query: str):
-    # Fallback mock tweets for testing the UI flow without a Twitter API key
-    tweets = [
-        f"I really love how {query} is shaping the future!",
-        f"Not sure if {query} is overhyped or actually useful.",
-        f"The latest update regarding {query} is extremely disappointing.",
-        f"{query} is okay, but I prefer the alternatives.",
-        f"Absolutely amazed by the performance of {query} today.",
-        f"Terrible experience trying to use {query} for my project.",
-        f"Just learning about {query}, seems interesting so far."
+    import random
+    
+    # Generate a realistic number of simulated tweets for the dashboard
+    num_tweets = random.randint(45, 120)
+    
+    positive_templates = [
+        "I really love how {query} is shaping the future!",
+        "Absolutely amazed by the performance of {query} today.",
+        "Just saw the news about {query}, incredible work!",
+        "{query} is definitely a game changer.",
+        "Can't stop thinking about how good {query} is right now.",
+        "The community around {query} is so supportive and amazing.",
+        "I highly recommend checking out {query} if you haven't already!"
     ]
+    
+    neutral_templates = [
+        "Not sure if {query} is overhyped or actually useful.",
+        "{query} is okay, but I prefer the alternatives.",
+        "Just learning about {query}, seems interesting so far.",
+        "What are everyone's thoughts on {query}?",
+        "I'm neutral on {query} for now, need more data.",
+        "Saw a lot of posts about {query} trending today.",
+        "Has anyone tested the new {query} update?"
+    ]
+    
+    negative_templates = [
+        "The latest update regarding {query} is extremely disappointing.",
+        "Terrible experience trying to use {query} for my project.",
+        "I honestly don't get the hype around {query}, it's terrible.",
+        "{query} has been crashing non-stop for me.",
+        "Why is {query} so difficult to set up?",
+        "Completely ruined my workflow today because of {query}.",
+        "I think {query} is a massive step backwards."
+    ]
+    
+    all_templates = positive_templates + neutral_templates + negative_templates
+    
+    tweets = []
+    for _ in range(num_tweets):
+        template = random.choice(all_templates)
+        # Add some random variations to make it look scraped
+        suffix = random.choice(["", " #trending", " tbh", " 🙄", " 🔥", " ...thoughts?", " smh"])
+        tweets.append(template.format(query=query) + suffix)
     
     analyzed_tweets = []
     positive_count = 0
