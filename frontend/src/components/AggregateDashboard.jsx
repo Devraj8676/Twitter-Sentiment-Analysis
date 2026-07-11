@@ -49,7 +49,7 @@ const AggregateDashboard = () => {
 
     try {
       // Call our backend (local or deployed)
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:3001';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://twitter-sentiment-analysis-8fgr.onrender.com';
       const response = await axios.get(`${apiUrl}/api/tweets`, {
         params: { query: query.trim() }
       });
