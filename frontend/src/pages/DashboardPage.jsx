@@ -18,8 +18,8 @@ const DashboardPage = () => {
     setError(null);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:3001';
-      const response = await axios.post(`${apiUrl}/api/predict`, { text });
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://twitter-sentiment-analysis-8fgr.onrender.com';
+      const response = await axios.post(`${apiUrl}/predict`, { text });
       setResult(response.data);
     } catch (err) {
       console.error(err);

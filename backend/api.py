@@ -59,6 +59,79 @@ def predict_sentiment(request: PredictRequest):
         "text": request.text
     }
 
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to Twitter Sentiment Analysis API. The backend is live! 🚀"}
+
+@app.get("/api/tweets")
+def get_tweets(query: str):
+    # Fallback mock tweets for testing the UI flow without a Twitter API key
+    tweets = [
+        f"I really love how {query} is shaping the future!",
+        f"Not sure if {query} is overhyped or actually useful.",
+        f"The latest update regarding {query} is extremely disappointing.",
+        f"{query} is okay, but I prefer the alternatives.",
+        f"Absolutely amazed by the performance of {query} today.",
+        f"Terrible experience trying to use {query} for my project.",
+        f"Just learning about {query}, seems interesting so far."
+    ]
+    
+    analyzed_tweets = []
+    positive_count = 0
+    neutral_count = 0
+    negative_count = 0
+    
+    for text in tweets:
+        if pipeline:
+            cleaned_text = clean_text(text)
+            prediction = pipeline.predict([cleaned_text])[0]
+            sentiment = str(prediction).capitalize()
+        else:
+            sentiment = "Neutral"
+            
+        analyzed_tweets.append({"sentiment": sentiment, "text": text})
+        
+        if sentiment == "Positive":
+            positive_count += 1
+        elif sentiment == "Negative":
+            negative_count += 1
+        else:
+            neutral_count += 1
+            
+    total = positive_count + neutral_count + negative_count
+    pos_pct = round((positive_count / total) * 100) if total > 0 else 0
+    neu_pct = round((neutral_count / total) * 100) if total > 0 else 0
+    neg_pct = round((negative_count / total) * 100) if total > 0 else 0
+    
+    line_data = [
+      { "name": 'Mon', "Positive": max(0, pos_pct - 5), "Neutral": neu_pct, "Negative": neg_pct },
+      { "name": 'Tue', "Positive": max(0, pos_pct - 3), "Neutral": neu_pct, "Negative": neg_pct },
+      { "name": 'Wed', "Positive": max(0, pos_pct - 2), "Neutral": neu_pct, "Negative": neg_pct },
+      { "name": 'Thu', "Positive": pos_pct, "Neutral": neu_pct, "Negative": neg_pct },
+      { "name": 'Fri', "Positive": pos_pct, "Neutral": neu_pct, "Negative": neg_pct },
+      { "name": 'Sat', "Positive": pos_pct, "Neutral": neu_pct, "Negative": neg_pct },
+      { "name": 'Sun', "Positive": pos_pct, "Neutral": neu_pct, "Negative": neg_pct },
+    ]
+    
+    return {
+      "query": query,
+      "metrics": {
+        "positivePercentage": pos_pct,
+        "neutralPercentage": neu_pct,
+        "negativePercentage": neg_pct,
+        "totalAnalyzed": total
+      },
+      "chartData": {
+        "pieData": [
+          { "name": 'Positive', "value": pos_pct },
+          { "name": 'Neutral', "value": neu_pct },
+          { "name": 'Negative', "value": neg_pct },
+        ],
+        "lineData": line_data
+      },
+      "recentTweets": analyzed_tweets
+    }
+
 if __name__ == "__main__":
     import os
     # Start the server on port 8000 or dynamically assigned PORT
